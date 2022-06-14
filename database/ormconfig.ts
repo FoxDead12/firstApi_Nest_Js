@@ -1,4 +1,7 @@
-import { DataSource } from "typeorm"
+import { TypeOrmModuleOptions } from "@nestjs/typeorm";
+import { DataSource } from "typeorm";
+import dtosList from "./dtosList";
+
 export const connectionSource = new DataSource({
     migrationsTableName: 'migrations',
     type: 'mysql',
@@ -14,3 +17,14 @@ export const connectionSource = new DataSource({
     migrations: ['database/migrations/*.ts'],
 
 });
+
+export const ormconfig : TypeOrmModuleOptions = {
+    type: 'mysql',
+    host: 'localhost',
+    port: 3306,
+    username: 'root',
+    password: 'root',
+    database: 'test',
+    entities: dtosList,
+    synchronize: true,
+}
