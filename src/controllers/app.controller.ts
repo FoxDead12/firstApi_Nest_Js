@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from 'src/services/app.service';
-import { USERS } from 'src/endpoints';
+import { USERS } from '../endpoints';
+import { AppService } from '../services/app.service';
 
 @Controller(USERS.BASE)
 export class AppController {
