@@ -10,9 +10,6 @@
       "outDir": "./build",
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
-      "sourceMap": true,
-      "paths": {
-         "@database/ormconfig": ["./database/ormconfig.ts"]
-      }
+      "sourceMap": true
    }
 }
