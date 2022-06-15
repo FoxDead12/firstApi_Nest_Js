@@ -7,9 +7,10 @@ import { ormconfig } from "../database/ormconfig";
 import { UserService } from './services/user.service';
 import { TokenService } from './services/token.service';
 import { UserPermissionService } from './services/userPermissions.service';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(ormconfig)],
+  imports: [TypeOrmModule.forRoot(ormconfig), ConfigModule.forRoot()],
   controllers: [AppController],
   providers: [AppService, UserService, TokenService, UserPermissionService],
 })

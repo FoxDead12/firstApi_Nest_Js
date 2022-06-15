@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
 
 export class TokenModel {
@@ -18,18 +20,24 @@ export class TokenModel {
     }
 }
 
+@Injectable()
 export class TokenService {
+
+    protected secret = "";
+    constructor(private configService: ConfigService) {
+        this.secret = this.configService.get('TOKE_KEY');
+    }
+
 
     GenerateToken(tokenObj: TokenModel) {
         return jwt.sign(
             {...tokenObj},
-            "secret"
+            this.secret
         );
     }
 
     DecryptToken(token: string): TokenModel {
-
-        const aux = jwt.verify(token, "secret") as TokenModel;
+        const aux = jwt.verify(token, this.secret) as TokenModel;
         aux.date = new Date(aux.date);
         return new TokenModel({...aux});
 

@@ -25,7 +25,6 @@ export class PermissionsGuard implements CanActivate {
 
         try{
             const jwtToken : TokenModel = this.tokenService.DecryptToken(tokenString);
-
             if(jwtToken.Id){
                 //Verificar Se o User tem as Permissões Necessarias
                 return this.userPermission.userHasOnePermissions(hasOnePermissions, jwtToken.Id);
