@@ -1,9 +1,8 @@
-import { table } from 'console';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { UsersPermissions } from './UsersPermissions';
 
 @Entity("Users")
-export class User {
+export class User{
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -22,6 +21,10 @@ export class User {
   @Column({ default: true })
   isActive: boolean;
 
+  @Column({type: "datetime", nullable: true})
+  date_created: Date;
+
   @OneToMany(() => UsersPermissions, table => table.user)
   permissions: UsersPermissions[];
+
 }
