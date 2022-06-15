@@ -6,7 +6,7 @@ import { UserAlreadyExisteException } from "../models/exceptions/UserAlreadyExis
 import { UserNotFoundException } from "../models/exceptions/UserNotFoundException";
 import { AuthRequest } from "../models/request/AuthRequest";
 import { CreateNewUserRequest } from "../models/request/CreateNewUserRequest";
-import { UsersPermissionsRepository } from "../repositorys/UserPermission";
+import { UsersPermissionsRepository } from "../repositorys/UserPermissionRepository";
 import { UserRepository } from "../repositorys/UserRepository";
 import { TokenModel, TokenService } from "./token.service";
 

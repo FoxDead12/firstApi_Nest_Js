@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { DataSource } from "typeorm";
 import { UsersPermissions } from "../../database/dtos/UsersPermissions";
 import { CreateTransaction } from "../models/CreateTransaction";
-import { UsersPermissionsRepository } from "../repositorys/UserPermission";
+import { UsersPermissionsRepository } from "../repositorys/UserPermissionRepository";
 
 @Injectable()
 export class UserPermissionService extends CreateTransaction {
@@ -24,7 +24,7 @@ export class UserPermissionService extends CreateTransaction {
 
             if(permissionsInDb){
                 result = permissionsInDb.some((entity: UsersPermissions) => {
-                    return permissions.includes(entity.id);
+                    return permissions.includes(entity.permission.id);
                 });
             }
             else{
