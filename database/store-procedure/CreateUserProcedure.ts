@@ -3,10 +3,12 @@ export const CreateUserProcedure_Create =
 BEGIN
 declare id int;
 declare hash varchar(255);
+declare date_now DATETIME;
 
-insert into Users(firstName, lastName, email, password) values (firstName, lastName, email, '');
+set date_now = now();
+insert into Users(firstName, lastName, email, PASSWORD, date_created) values (firstName, lastName, email, '', date_now);
 set id = LAST_INSERT_ID();
-set hash = SHA2(CONCAT(now(), email, password, id), 512);
+set hash = SHA2(CONCAT(date_now, email, password, id), 512);
 
 update Users u SET u.password = hash where u.id = id;
 

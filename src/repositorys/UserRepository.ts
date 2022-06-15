@@ -27,4 +27,16 @@ export class UserRepository{
         const runner = this._runners[transaction];
         return await runner.manager.query("CALL createUser(?,?,?,?)", [request.firstName, request.lastName, request.email, password])
     }
+
+    public async validUser(email: string, password: string, transaction: string){
+        
+        const runner = this._runners[transaction];
+        const result = await runner.manager.query("CALL auth(?,?)", [email, password]);
+        if(result[0][0].id){
+            return result[0][0].id;
+        }
+        else{
+            return null;
+        }
+    }
 }
