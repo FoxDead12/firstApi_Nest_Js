@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne } from 'typeorm';
+import { UserData } from './UserData';
 import { UsersPermissions } from './UsersPermissions';
 
 @Entity("Users")
@@ -26,5 +27,8 @@ export class User{
 
   @OneToMany(() => UsersPermissions, table => table.user)
   permissions: UsersPermissions[];
+
+  @OneToOne(() => UserData, table => table.user)
+  personalData: UserData;
 
 }
