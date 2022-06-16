@@ -5,6 +5,7 @@ import { CreateTransaction } from "../models/CreateTransaction";
 import { UserAlreadyExisteException } from "../models/exceptions/UserAlreadyExisteException";
 import { UserNotFoundException } from "../models/exceptions/UserNotFoundException";
 import { AuthRequest } from "../models/request/AuthRequest";
+import { ChangePasswordRequest } from "../models/request/ChangePasswordRequest";
 import { CreateNewUserRequest } from "../models/request/CreateNewUserRequest";
 import { UsersPermissionsRepository } from "../repositorys/UserPermissionRepository";
 import { UserRepository } from "../repositorys/UserRepository";
@@ -72,5 +73,19 @@ export class UserService extends CreateTransaction{
         }, this.dataSource);
 
         return result;
+    }
+
+    async changePassword(request: ChangePasswordRequest){
+        let result;
+        await this.Transaction(async (transaction) => {
+
+            let user = await this.userRepository.getUserById(request.jwtToke.Id, transaction); 
+            if(!user){
+                throw new UserNotFoundException();
+            }
+            user.password = request.password;
+            await this.userRepository.changePassword(user, transaction);
+
+        }, this.dataSource);
     }
 }
