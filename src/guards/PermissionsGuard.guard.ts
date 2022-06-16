@@ -32,7 +32,6 @@ export class PermissionsGuard implements CanActivate {
 
         try{
             const jwtToken : TokenModel = this.tokenService.DecryptToken(tokenString);
-            console.log(jwtToken.date);
 
             //Verificar Se o token não passou a data de validade
 

@@ -1,4 +1,3 @@
-import { table } from "console";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { UsersPermissions } from "./UsersPermissions";
 

@@ -1,5 +1,4 @@
-import { table } from "console";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Permission } from "./Permissions";
 import { User } from "./User";
 
