@@ -9,6 +9,19 @@ export class UserRepository{
         protected _runners: {[key: string]: QueryRunner} = {},
     ){}
 
+    public async getUserById(id: number, transaction: string) {
+
+        const runner = this._runners[transaction];
+        const user = await runner.manager.findOneBy(User, {id});
+        
+        if(user){
+            return user;
+        }
+        else{
+            return null;
+        }
+    }
+
     public async getUserByEmail(email: string, transaction: string): Promise<User>{
 
         const runner = this._runners[transaction];
@@ -38,5 +51,11 @@ export class UserRepository{
         else{
             return null;
         }
+    }
+
+    public async changePassword( userEntity: User, transaction: string) {
+
+        const runner = this._runners[transaction];
+        const result = await runner.manager.query("CALL changePassword(?,?)", [userEntity.id, userEntity.password]);
     }
 }
