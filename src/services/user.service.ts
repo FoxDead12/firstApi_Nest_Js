@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { DataSource } from "typeorm";
+import { User } from "../../database/dtos/User";
 import { generatePassword } from "../helpers/GeneratePassword";
 import { CreateTransaction } from "../models/CreateTransaction";
 import { UserAlreadyExisteException } from "../models/exceptions/UserAlreadyExisteException";
@@ -87,5 +88,24 @@ export class UserService extends CreateTransaction{
             await this.userRepository.changePassword(user, transaction);
 
         }, this.dataSource);
+    }
+
+    async creatRootUser(){
+
+        let result;
+        await this.Transaction(async (transaction) => {
+
+            let user = await this.userRepository.getUserByEmail("root", transaction); 
+            if(user){
+                throw new UserAlreadyExisteException();
+            }
+
+            const password = generatePassword();
+            const resultUser = await this.userRepository.createNewUser({email: "root", firstName: "root", lastName: "root" } as CreateNewUserRequest, password ,transaction);
+            await this.userPermissionsRepository.addPermissionsToUser({id: resultUser[0][0].id }, [1], transaction);
+            result = {password};
+        }, this.dataSource);
+
+        return result;
     }
 }

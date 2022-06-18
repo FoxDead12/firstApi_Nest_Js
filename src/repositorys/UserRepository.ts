@@ -35,7 +35,7 @@ export class UserRepository{
         }
     }
 
-    public async createNewUser(request: CreateNewUserRequest, password:string , transaction: string): Promise<User>{
+    public async createNewUser(request: Partial<CreateNewUserRequest>, password:string , transaction: string): Promise<User>{
 
         const runner = this._runners[transaction];
         return await runner.manager.query("CALL createUser(?,?,?,?)", [request.firstName, request.lastName, request.email, password])

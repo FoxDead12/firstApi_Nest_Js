@@ -82,4 +82,10 @@ export class AppController {
     return this.userDataService.updatePersonalInformation(request);
   }
 
+
+  @Post(USERS.CREATEROOTUSER)
+  @UseFilters(UserAlreadyExisteExceptionFilter)
+  createRootUser(){
+    return this.userService.creatRootUser();
+  }
 }
