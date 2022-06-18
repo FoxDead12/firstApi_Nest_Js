@@ -6,7 +6,7 @@ BEGIN
 	declare hash varchar(255);
     declare userHash varchar(255);
 
-	select u.id, u.date_created, u.password into id , date_created, userHash from Users u where u.email = email;
+	select u.id, u.date_created, u.password into id , date_created, userHash from Users u where u.email = email AND u.isActive = true;
 
 	set hash = SHA2(CONCAT(date_created, email, password, id ), 512);
 

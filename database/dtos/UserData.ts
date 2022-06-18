@@ -11,7 +11,7 @@ export class UserData {
     @Column()
     userId: number;
 
-    @Column()
+    @Column({type: "date"})
     dataNascimento: Date;
 
     @Column()

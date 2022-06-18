@@ -26,4 +26,10 @@ export class UserDataRepository {
         const runner = this._runners[transaction];
         await runner.manager.save(UserData, data);
     }
+
+    public async updatePersonalInformation(data: Partial<UserData>, transaction: string) {
+
+        const runner = this._runners[transaction];
+        await runner.manager.update(UserData, {userId: data.userId} as UserData ,data);
+    }
 }
