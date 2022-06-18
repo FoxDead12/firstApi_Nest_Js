@@ -45,6 +45,7 @@ export class UserRepository{
         
         const runner = this._runners[transaction];
         const result = await runner.manager.query("CALL auth(?,?)", [email, password]);
+        
         if(result[0][0].id){
             return result[0][0].id;
         }

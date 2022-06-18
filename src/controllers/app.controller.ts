@@ -4,7 +4,9 @@ import { USERS } from '../endpoints';
 import { HasOne, PermissionsGuard, Token } from '../guards/PermissionsGuard.guard';
 import { UserAlreadyExisteExceptionFilter } from '../models/exceptions-filters/UserAlreadyExisteExceptionFilter';
 import { UserAlreadyHavePersonalInfoExceptionFilter } from '../models/exceptions-filters/UserAlreadyHavePersonalInfoExceptionFilter';
+import { UserDoesntHavePersonalInformationExceptionFilter } from '../models/exceptions-filters/UserDoesntHavePersonalInformationExceptionFilter';
 import { UserNotFoundExceptionFilter } from '../models/exceptions-filters/UserNotFoundExceptionFilter';
+import { UserDoesntHavePersonalInformationException } from '../models/exceptions/UserDoesntHavePersonalInformationException';
 import { Permission } from '../models/Permissions';
 import { AddPersonalInformationRequest } from '../models/request/AddPersonalInformationRequest';
 import { AuthRequest } from '../models/request/AuthRequest';
@@ -14,7 +16,6 @@ import { AppService } from '../services/app.service';
 import { TokenService } from '../services/token.service';
 import { UserService } from '../services/user.service';
 import { UserDataService } from '../services/userData.service';
-import { UserPermissionService } from '../services/userPermissions.service';
 
 @Controller(USERS.BASE)
 export class AppController {
@@ -29,7 +30,7 @@ export class AppController {
   @Post()
   @UseGuards(PermissionsGuard)
   @HasOne(Permission.ADMIN, Permission.MANAGER)
-  @UseFilters(new UserAlreadyExisteExceptionFilter())
+  @UseFilters(UserAlreadyExisteExceptionFilter)
   createNewUser(@Body() request: CreateNewUserRequest){
     return this.userService.createNewUser(request);
   }
@@ -55,6 +56,7 @@ export class AppController {
   @Post(USERS.ADDPERSONALINFORMATION)
   @UseGuards(PermissionsGuard)
   @HasOne(Permission.ADMIN, Permission.MANAGER)
+  @UseFilters(UserNotFoundExceptionFilter, new UserAlreadyHavePersonalInfoExceptionFilter())
   addPersonalInformation(@Body() request: AddPersonalInformationRequest , @Param("id") userId: number){
     
     request.userId = userId;
@@ -64,11 +66,20 @@ export class AppController {
   @Post(USERS.ADDPMYERSONALINFORMATION)
   @UseGuards(PermissionsGuard)
   @HasOne(Permission.ADMIN, Permission.MANAGER, Permission.CONSULTANT)
-  @UseFilters(UserAlreadyHavePersonalInfoExceptionFilter)
+  @UseFilters(UserNotFoundExceptionFilter, UserAlreadyHavePersonalInfoExceptionFilter)
   addMyPersonalInformation(@Body() request: AddPersonalInformationRequest , @Token() token: string){
     
     request.userId = this.tokenService.DecryptToken(token).Id;
     return this.userDataService.addPersonalInformation(request);
+  }
+
+  @Post(USERS.UPDATEPERSONALINFORMATION)
+  @UseGuards(PermissionsGuard)
+  @HasOne(Permission.ADMIN, Permission.MANAGER)
+  @UseFilters(UserDoesntHavePersonalInformationExceptionFilter)
+  updatePersonalInformation(@Body() request: AddPersonalInformationRequest , @Param("id") userId: number){
+    request.userId = userId;
+    return this.userDataService.updatePersonalInformation(request);
   }
 
 }

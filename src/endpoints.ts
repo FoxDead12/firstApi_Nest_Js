@@ -6,4 +6,5 @@ export const USERS = {
     CHANGEPASSWORD: "/change-password",
     ADDPERSONALINFORMATION: "/add-personal-information/:id",
     ADDPMYERSONALINFORMATION: "/add-my-personal-information",
+    UPDATEPERSONALINFORMATION:"/update-personal-information/:id"
 }
