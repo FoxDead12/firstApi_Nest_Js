@@ -10,7 +10,7 @@ async function bootstrap() {
       Logger.debug(
       "Service Listening at PORT:" + PORT + "/" + globalPrefix
       );
-    );
+  });
 
 }
 bootstrap();
